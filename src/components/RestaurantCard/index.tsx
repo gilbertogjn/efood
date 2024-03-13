@@ -13,7 +13,7 @@ type Props = {
   image: string
 }
 
-const Item = ({
+const RestaurantCard = ({
   title,
   rate,
   category,
@@ -43,4 +43,4 @@ const Item = ({
   </Card>
 )
 
-export default Item
+export default RestaurantCard

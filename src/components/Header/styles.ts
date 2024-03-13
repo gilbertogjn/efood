@@ -3,12 +3,15 @@ import { colors } from '../../styles'
 
 export const HeaderBar = styled.section`
   background-color: ${colors.beige};
-  height: 384px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  padding: 40px;
+
+  .container {
+    height: 384px;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   h2 {
     font-size: 36px;

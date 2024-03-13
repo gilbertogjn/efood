@@ -13,4 +13,12 @@ export const ButtonLink = styled(Link)`
   font-weight: bold;
 `
 
-export const ButtonContainer = styled.button``
+export const ButtonContainer = styled.button`
+  width: 100%;
+  background-color: ${colors.beige};
+  color: ${colors.red};
+  padding: 4px 0;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+`

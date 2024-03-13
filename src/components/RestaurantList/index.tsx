@@ -1,4 +1,4 @@
-import Item from '../Item'
+import RestaurantCard from '../RestaurantCard'
 import Restaurant from '../../models/Restaurant'
 
 import { Grid } from './styles'
@@ -7,11 +7,11 @@ export type Props = {
   restaurants: Restaurant[]
 }
 
-const ItemList = ({ restaurants }: Props) => (
+const RestaurantList = ({ restaurants }: Props) => (
   <div className="container">
     <Grid>
       {restaurants.map((restaurant) => (
-        <Item
+        <RestaurantCard
           key={restaurant.id}
           featured={restaurant.featured}
           category={restaurant.category}
@@ -25,4 +25,4 @@ const ItemList = ({ restaurants }: Props) => (
   </div>
 )
 
-export default ItemList
+export default RestaurantList

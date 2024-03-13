@@ -1,9 +1,11 @@
-import ItemList from '../../components/ItemList'
+import Header from '../../components/Header'
+import RestaurantList from '../../components/RestaurantList'
 import { restaurants } from '../../data/restaurantsList'
 
 const Home = () => (
   <>
-    <ItemList restaurants={restaurants} />
+    <Header />
+    <RestaurantList restaurants={restaurants} />
   </>
 )
 
