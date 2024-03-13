@@ -14,7 +14,7 @@ const ProductCard = ({ title, description, image }: Props) => (
     <h3>{title}</h3>
     <p>{description}</p>
     <Button type="button" to="" title="Saiba mais">
-      Saiba Mais
+      Adicionar ao carrinho
     </Button>
   </Card>
 )

@@ -3,6 +3,8 @@ import { colors } from '../../styles'
 
 export const HeaderBar = styled.section`
   background-color: ${colors.beige};
+  font-weight: 900;
+  font-size: 18px;
 
   img {
     margin: 40px 0;
@@ -15,13 +17,11 @@ export const HeaderProductInfo = styled.div`
   justify-content: space-between;
   align-items: center;
   color: ${colors.red};
-  font-weight: 900;
-  font-size: 18px;
   position: relative;
 
   .restaurantsBtn {
     color: ${colors.red};
-    width: 153px;
+    width: 197px;
   }
 `
 

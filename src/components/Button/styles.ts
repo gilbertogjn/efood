@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { colors } from '../../styles'
 
 export const ButtonLink = styled(Link)`
-  width: 82px;
   height: 24px;
+  width: 94px;
   color: ${colors.beige};
   background-color: ${colors.red};
   padding: 4px 6px;
@@ -21,4 +21,5 @@ export const ButtonContainer = styled.button`
   text-decoration: none;
   font-weight: bold;
   border: none;
+  cursor: pointer;
 `

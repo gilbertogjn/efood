@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 import { colors } from '../../styles'
+import Button from '../Button'
 
 export const Card = styled.div`
   position: relative;
   width: 472px;
-  height: 400px;
+  height: 424px;
   background-color: ${colors.white};
   border: 1px solid ${colors.red};
 
@@ -27,7 +28,11 @@ export const TagBar = styled.div`
 `
 
 export const Infos = styled.div`
+  height: 202px;
   padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 export const TitleBar = styled.div`

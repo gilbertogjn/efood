@@ -37,7 +37,7 @@ const RestaurantCard = ({
       </TitleBar>
       <p>{description}</p>
       <Button type="link" to="/products" title="Saiba mais">
-        Saiba Mais
+        Saiba mais
       </Button>
     </Infos>
   </Card>
