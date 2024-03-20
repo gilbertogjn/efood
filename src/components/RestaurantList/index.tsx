@@ -1,5 +1,5 @@
 import RestaurantCard from '../RestaurantCard'
-import Restaurant from '../../models/Restaurant'
+import { Restaurant } from '../../pages/Home'
 
 import { Grid } from './styles'
 
@@ -13,12 +13,13 @@ const RestaurantList = ({ restaurants }: Props) => (
       {restaurants.map((restaurant) => (
         <RestaurantCard
           key={restaurant.id}
-          featured={restaurant.featured}
-          category={restaurant.category}
-          description={restaurant.description}
-          image={restaurant.image}
-          title={restaurant.title}
-          rate={restaurant.rate}
+          id={restaurant.id}
+          featured={restaurant.destacado}
+          category={restaurant.tipo}
+          description={restaurant.descricao}
+          image={restaurant.capa}
+          title={restaurant.titulo}
+          rate={restaurant.avaliacao}
         />
       ))}
     </Grid>

@@ -26,10 +26,27 @@ export const HeaderProductInfo = styled.div`
 `
 
 export const HeroBar = styled.div`
+  position: relative;
+  display: block;
   width: 100%;
   height: 280px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    content: '';
+    opacity: 0.5;
+  }
 
   .container {
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -40,11 +57,13 @@ export const HeroBar = styled.div`
     h2 {
       font-size: 36px;
       font-weight: 900;
+      z-index: 1;
     }
 
     h3 {
       font-weight: 100;
       font-size: 32px;
+      z-index: 1;
     }
   }
 `

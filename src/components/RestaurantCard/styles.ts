@@ -9,13 +9,15 @@ export const Card = styled.div`
   background-color: ${colors.white};
   border: 1px solid ${colors.red};
 
-  img {
+  .photo {
     width: 100%;
+    height: 217px;
+    object-fit: cover;
   }
 
   p {
     margin: 16px 0;
-    line-height: 22px;
+    line-height: 24px;
   }
 `
 
