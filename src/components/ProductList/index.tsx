@@ -1,16 +1,11 @@
 import ProductCard from '../ProductCard'
-import Product from '../../models/Product'
 
 import { Grid } from './styles'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Restaurant } from '../../pages/Home'
 
-export type Props = {
-  products: Product[]
-}
-
-const ProductList = ({ products }: Props) => {
+const ProductList = () => {
   const { id } = useParams()
 
   const [restaurant, setRestaurant] = useState<Restaurant>()
@@ -29,14 +24,7 @@ const ProductList = ({ products }: Props) => {
     <div className="container">
       <Grid>
         {restaurant.cardapio.map((dish) => (
-          <ProductCard
-            key={dish.id}
-            title={dish.nome}
-            description={dish.descricao}
-            image={dish.foto}
-            price={dish.preco}
-            portion={dish.porcao}
-          />
+          <ProductCard key={dish.id} dish={dish} />
         ))}
       </Grid>
     </div>

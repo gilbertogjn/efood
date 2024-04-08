@@ -7,21 +7,27 @@ import close from '../../assets/image/close.svg'
 import Button from '../Button'
 
 import { useDispatch } from 'react-redux'
-import { open } from '../../store/reducers/cart'
+import { add, open } from '../../store/reducers/cart'
+import { Dish } from '../../pages/Home'
+
+// type Props = {
+//   title: string
+//   description: string
+//   image: string
+//   price: number
+//   portion: string
+// }
 
 type Props = {
-  title: string
-  description: string
-  image: string
-  price: number
-  portion: string
+  dish: Dish
 }
 
-const ProductCard = ({ title, description, image, price, portion }: Props) => {
+const ProductCard = ({ dish }: Props) => {
   const dispatch = useDispatch()
 
   const openCart = () => {
     dispatch(open())
+    dispatch(add(dish))
   }
 
   const [modalOn, setModalOn] = useState(false)
@@ -36,9 +42,9 @@ const ProductCard = ({ title, description, image, price, portion }: Props) => {
   return (
     <>
       <Card>
-        <img src={image} />
-        <h3>{title}</h3>
-        <p>{letterLimit(description, 125)}</p>
+        <img src={dish.foto} />
+        <h3>{dish.nome}</h3>
+        <p>{letterLimit(dish.descricao, 125)}</p>
         <Button
           type="button"
           to=""
@@ -51,7 +57,7 @@ const ProductCard = ({ title, description, image, price, portion }: Props) => {
       <Modal className={modalOn ? 'visible' : ''}>
         <div className="overlay" onClick={() => setModalOn(false)}></div>
         <div className="container">
-          <img src={image} alt="Pizza de Marguerita" />
+          <img src={dish.foto} alt="Pizza de Marguerita" />
           <img
             className="close"
             src={close}
@@ -59,15 +65,15 @@ const ProductCard = ({ title, description, image, price, portion }: Props) => {
             onClick={() => setModalOn(false)}
           />
           <div className="infos">
-            <h3>{title}</h3>
-            <p>{description}</p>
-            <p>Serve: {portion}</p>
+            <h3>{dish.nome}</h3>
+            <p>{dish.descricao}</p>
+            <p>Serve: {dish.porcao}</p>
             <Button
               onClick={openCart}
               type="button"
               title="Adicionar ao carrinho"
             >
-              {`Adicionar ao carrinho - R$ ${price}`}
+              {`Adicionar ao carrinho - R$ ${dish.preco}`}
             </Button>
           </div>
         </div>
