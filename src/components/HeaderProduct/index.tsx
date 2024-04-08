@@ -7,7 +7,16 @@ import { Restaurant } from '../../pages/Home'
 import bgHeader from '../../assets/image/bgHeader.svg'
 import logo from '../../assets/image/logo.svg'
 
+import { open } from '../../store/reducers/cart'
+import { useDispatch } from 'react-redux'
+
 const HeaderProduct = () => {
+  const dispatch = useDispatch()
+
+  const openCart = () => {
+    dispatch(open())
+  }
+
   const { id } = useParams()
 
   const [restaurant, setRestaurant] = useState<Restaurant>()
@@ -28,7 +37,7 @@ const HeaderProduct = () => {
           <Link className="logoHome" to="/">
             <img src={logo} />
           </Link>
-          <p>0 produto(s) no carrinho</p>
+          <p onClick={openCart}>0 produto(s) no carrinho</p>
         </HeaderProductInfo>
       </div>
       <HeroBar style={{ backgroundImage: `url(${restaurant?.capa})` }}>

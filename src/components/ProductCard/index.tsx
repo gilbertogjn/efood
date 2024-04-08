@@ -6,6 +6,9 @@ import close from '../../assets/image/close.svg'
 
 import Button from '../Button'
 
+import { useDispatch } from 'react-redux'
+import { open } from '../../store/reducers/cart'
+
 type Props = {
   title: string
   description: string
@@ -15,6 +18,12 @@ type Props = {
 }
 
 const ProductCard = ({ title, description, image, price, portion }: Props) => {
+  const dispatch = useDispatch()
+
+  const openCart = () => {
+    dispatch(open())
+  }
+
   const [modalOn, setModalOn] = useState(false)
 
   function letterLimit(text: string, maxLength: number) {
@@ -29,7 +38,7 @@ const ProductCard = ({ title, description, image, price, portion }: Props) => {
       <Card>
         <img src={image} />
         <h3>{title}</h3>
-        <p>{letterLimit(description, 145)}</p>
+        <p>{letterLimit(description, 125)}</p>
         <Button
           type="button"
           to=""
@@ -53,7 +62,11 @@ const ProductCard = ({ title, description, image, price, portion }: Props) => {
             <h3>{title}</h3>
             <p>{description}</p>
             <p>Serve: {portion}</p>
-            <Button type="button" title="Adicionar ao carrinho">
+            <Button
+              onClick={openCart}
+              type="button"
+              title="Adicionar ao carrinho"
+            >
               {`Adicionar ao carrinho - R$ ${price}`}
             </Button>
           </div>

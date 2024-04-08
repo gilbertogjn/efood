@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import RestaurantList from '../../components/RestaurantList'
 
-type Dish = {
+export type Dish = {
   foto: string
   preco: number
   id: number
