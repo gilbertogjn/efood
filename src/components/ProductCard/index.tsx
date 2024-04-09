@@ -28,6 +28,7 @@ const ProductCard = ({ dish }: Props) => {
   const openCart = () => {
     dispatch(open())
     dispatch(add(dish))
+    console.log(dish)
   }
 
   const [modalOn, setModalOn] = useState(false)

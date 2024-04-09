@@ -3,11 +3,11 @@ import Header from '../../components/Header'
 import RestaurantList from '../../components/RestaurantList'
 
 export type Dish = {
+  foto: string
+  preco: number
   id: number
   nome: string
   descricao: string
-  foto: string
-  preco: number
   porcao: string
 }
 

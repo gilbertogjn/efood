@@ -8,10 +8,12 @@ import bgHeader from '../../assets/image/bgHeader.svg'
 import logo from '../../assets/image/logo.svg'
 
 import { open } from '../../store/reducers/cart'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootReducer } from '../../store'
 
 const HeaderProduct = () => {
   const dispatch = useDispatch()
+  const { items } = useSelector((state: RootReducer) => state.cart)
 
   const openCart = () => {
     dispatch(open())
@@ -37,7 +39,7 @@ const HeaderProduct = () => {
           <Link className="logoHome" to="/">
             <img src={logo} />
           </Link>
-          <p onClick={openCart}>0 produto(s) no carrinho</p>
+          <p onClick={openCart}>{items.length} produto(s) no carrinho</p>
         </HeaderProductInfo>
       </div>
       <HeroBar style={{ backgroundImage: `url(${restaurant?.capa})` }}>

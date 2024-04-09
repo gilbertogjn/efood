@@ -1,14 +1,15 @@
+import { useDispatch, useSelector } from 'react-redux'
+
 import { CartContainer, Overlay, Total, Viewport } from './styles'
 
-import itemImg from '../../assets/image/product1.jpg'
 import trashIcon from '../../assets/image/trash.svg'
+
 import Button from '../Button'
-import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
-import { close } from '../../store/reducers/cart'
+import { close, remove } from '../../store/reducers/cart'
 
 const Cart = () => {
-  const { isOpen } = useSelector((state: RootReducer) => state.cart)
+  const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
 
   const dispatch = useDispatch()
 
@@ -16,39 +17,39 @@ const Cart = () => {
     dispatch(close())
   }
 
+  const getTotalPrice = () => {
+    return items.reduce((accumulator, currentValue) => {
+      return (accumulator += currentValue.preco)
+    }, 0)
+  }
+
+  const removeItem = (id: number) => {
+    dispatch(remove(id))
+  }
+
   return (
     <Viewport className={isOpen ? 'is-open' : ''}>
       <Overlay onClick={closeCart} />
       <CartContainer>
         <ul>
-          <li>
-            <img className="itemImg" src={itemImg} />
-            <div>
-              <h3>Pizza Marguerita</h3>
-              <p>R$ 60,90</p>
-            </div>
-            <img className="removeItem" src={trashIcon} />
-          </li>
-          <li>
-            <img className="itemImg" src={itemImg} />
-            <div>
-              <h3>Pizza Marguerita</h3>
-              <p>R$ 60,90</p>
-            </div>
-            <img className="removeItem" src={trashIcon} />
-          </li>
-          <li>
-            <img className="itemImg" src={itemImg} />
-            <div>
-              <h3>Pizza Marguerita</h3>
-              <p>R$ 60,90</p>
-            </div>
-            <img className="removeItem" src={trashIcon} />
-          </li>
+          {items.map((item) => (
+            <li key={item.id}>
+              <img className="itemImg" src={item.foto} alt={item.nome} />
+              <div>
+                <h3>{item.nome}</h3>
+                <p>R$ {item.preco}</p>
+              </div>
+              <img
+                onClick={() => removeItem(item.id)}
+                className="removeItem"
+                src={trashIcon}
+              />
+            </li>
+          ))}
         </ul>
         <Total>
           <span>Valor total</span>
-          <span>R$ 182,70</span>
+          <span>R$ {getTotalPrice()}</span>
         </Total>
         <Button type="button" title="Continuar">
           Continuar com a entrega
