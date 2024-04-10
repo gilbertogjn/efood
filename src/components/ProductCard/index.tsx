@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Card, Modal } from './styles'
+import { Card, Description, Modal } from './styles'
 
 import close from '../../assets/image/close.svg'
 
@@ -9,6 +9,7 @@ import Button from '../Button'
 import { useDispatch } from 'react-redux'
 import { add, open } from '../../store/reducers/cart'
 import { Dish } from '../../pages/Home'
+import { formatPrices } from '../../pages/Restaurant'
 
 // type Props = {
 //   title: string
@@ -24,14 +25,14 @@ type Props = {
 
 const ProductCard = ({ dish }: Props) => {
   const dispatch = useDispatch()
+  const [modalOn, setModalOn] = useState(false)
 
   const openCart = () => {
+    setModalOn(false)
     dispatch(open())
     dispatch(add(dish))
     console.log(dish)
   }
-
-  const [modalOn, setModalOn] = useState(false)
 
   function letterLimit(text: string, maxLength: number) {
     if (text.length > maxLength) {
@@ -45,7 +46,7 @@ const ProductCard = ({ dish }: Props) => {
       <Card>
         <img src={dish.foto} />
         <h3>{dish.nome}</h3>
-        <p>{letterLimit(dish.descricao, 125)}</p>
+        <Description>{dish.descricao}</Description>
         <Button
           type="button"
           to=""
@@ -74,7 +75,7 @@ const ProductCard = ({ dish }: Props) => {
               type="button"
               title="Adicionar ao carrinho"
             >
-              {`Adicionar ao carrinho - R$ ${dish.preco}`}
+              {`Adicionar ao carrinho - R$ ${formatPrices(dish.preco)}`}
             </Button>
           </div>
         </div>

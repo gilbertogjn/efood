@@ -28,6 +28,14 @@ export const Card = styled.div`
   }
 `
 
+export const Description = styled.p`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Número de linhas desejado */
+  -webkit-box-orient: vertical;
+`
+
 export const Modal = styled.div`
   position: fixed;
   top: 0;

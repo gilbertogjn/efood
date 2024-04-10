@@ -7,6 +7,7 @@ import trashIcon from '../../assets/image/trash.svg'
 import Button from '../Button'
 import { RootReducer } from '../../store'
 import { close, remove } from '../../store/reducers/cart'
+import { formatPrices } from '../../pages/Restaurant'
 
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
@@ -37,7 +38,7 @@ const Cart = () => {
               <img className="itemImg" src={item.foto} alt={item.nome} />
               <div>
                 <h3>{item.nome}</h3>
-                <p>R$ {item.preco}</p>
+                <p>{formatPrices(item.preco)}</p>
               </div>
               <img
                 onClick={() => removeItem(item.id)}
@@ -49,7 +50,7 @@ const Cart = () => {
         </ul>
         <Total>
           <span>Valor total</span>
-          <span>R$ {getTotalPrice()}</span>
+          <span>R$ {formatPrices(getTotalPrice())}</span>
         </Total>
         <Button type="button" title="Continuar">
           Continuar com a entrega

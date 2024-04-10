@@ -1,11 +1,9 @@
 import styled from 'styled-components'
 import { colors } from '../../styles'
-import Button from '../Button'
 
 export const Card = styled.div`
   position: relative;
   width: 472px;
-  height: 424px;
   background-color: ${colors.white};
   border: 1px solid ${colors.red};
 
@@ -13,11 +11,6 @@ export const Card = styled.div`
     width: 100%;
     height: 217px;
     object-fit: cover;
-  }
-
-  p {
-    margin: 16px 0;
-    line-height: 24px;
   }
 `
 
@@ -30,11 +23,9 @@ export const TagBar = styled.div`
 `
 
 export const Infos = styled.div`
-  height: 202px;
   padding: 8px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `
 
 export const TitleBar = styled.div`
@@ -55,4 +46,18 @@ export const Rating = styled.div`
     font-weight: bold;
     margin-right: 8px;
   }
+
+  img {
+    height: 14px;
+  }
+`
+
+export const Description = styled.p`
+  margin: 16px 0;
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 `

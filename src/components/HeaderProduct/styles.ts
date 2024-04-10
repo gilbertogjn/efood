@@ -23,6 +23,10 @@ export const HeaderProductInfo = styled.div`
     color: ${colors.red};
     width: 197px;
   }
+
+  p {
+    cursor: pointer;
+  }
 `
 
 export const HeroBar = styled.div`
@@ -64,6 +68,7 @@ export const HeroBar = styled.div`
       font-weight: 100;
       font-size: 32px;
       z-index: 1;
+      text-transform: capitalize;
     }
   }
 `
