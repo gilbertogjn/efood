@@ -29,6 +29,7 @@ export const CartContainer = styled.aside`
   width: 360px;
   height: 100%;
   background-color: ${colors.red};
+  color: ${colors.beige};
   padding: 32px 8px;
 
   ul {
@@ -40,6 +41,7 @@ export const CartContainer = styled.aside`
       display: flex;
       width: 100%;
       background-color: ${colors.beige};
+      color: ${colors.red};
       padding: 8px;
       position: relative;
 
@@ -72,4 +74,34 @@ export const Total = styled.div`
   font-weight: bold;
   font-size: 14px;
   margin: 40px 0 16px;
+`
+
+export const Row = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 34px;
+
+  .buttons {
+    margin-top: 24px;
+  }
+`
+
+export const InputGroup = styled.div`
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+
+  label {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  input {
+    margin-top: 8px;
+    width: 100%;
+    background-color: ${colors.beige};
+    border: none;
+    padding: 8px;
+    font-size: 14px;
+  }
 `
