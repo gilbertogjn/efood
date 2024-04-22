@@ -32,6 +32,16 @@ export const CartContainer = styled.aside`
   color: ${colors.beige};
   padding: 32px 8px;
 
+  h3,
+  p {
+    margin-bottom: 16px;
+  }
+
+  .card-data-row {
+    display: grid;
+    grid-template-columns: 70% auto;
+  }
+
   ul {
     display: flex;
     flex-direction: column;
@@ -44,10 +54,6 @@ export const CartContainer = styled.aside`
       color: ${colors.red};
       padding: 8px;
       position: relative;
-
-      h3 {
-        margin-bottom: 16px;
-      }
 
       .itemImg {
         width: 80px;
@@ -82,6 +88,10 @@ export const Row = styled.div`
   gap: 34px;
 
   .buttons {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    gap: 8px;
     margin-top: 24px;
   }
 `

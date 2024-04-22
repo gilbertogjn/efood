@@ -6,6 +6,7 @@ type Props = {
   to?: string
   onClick?: () => void
   children: string
+  disabled?: boolean | string
 }
 
 const Button = ({ type, title, to, onClick, children }: Props) => {
