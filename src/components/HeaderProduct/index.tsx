@@ -10,6 +10,7 @@ import logo from '../../assets/image/logo.svg'
 import { open } from '../../store/reducers/cart'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
+import { useGetRestaurantQuery } from '../../services/api'
 
 const HeaderProduct = () => {
   const dispatch = useDispatch()
@@ -21,13 +22,7 @@ const HeaderProduct = () => {
 
   const { id } = useParams()
 
-  const [restaurant, setRestaurant] = useState<Restaurant>()
-
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setRestaurant(res))
-  }, [id])
+  const { data: restaurant } = useGetRestaurantQuery(id!)
 
   return (
     <HeaderBar style={{ backgroundImage: `url(${bgHeader})` }}>
