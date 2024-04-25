@@ -42,7 +42,9 @@ const Cart = () => {
       expiresYear: ''
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().min(5).required('Campo obrigatório'),
+      fullName: Yup.string()
+        .min(5, 'O nome precisa ter no minímo 5 caracteres')
+        .required('Campo obrigatório'),
       address: Yup.string().min(5).required('Campo obrigatório'),
       city: Yup.string().min(5).required('Campo obrigatório'),
       postalCode: Yup.string().min(8).required('Campo obrigatório'),
@@ -66,6 +68,14 @@ const Cart = () => {
 
   const handlePrevious = () => {
     setCurrentScreen(currentScreen - 1)
+  }
+
+  const getErrorMsg = (fieldName: string, msg?: string) => {
+    const isTouched = fieldName in form.touched
+    const isInvalid = fieldName in form.errors
+
+    if (isTouched && isInvalid) return msg
+    return ''
   }
 
   const renderCurrentScreen = () => {
@@ -116,7 +126,9 @@ const Cart = () => {
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
                       />
-                      <small>{getErrorMessage('fullname')}</small>
+                      <small>
+                        {getErrorMsg('fullName', form.errors.fullName)}
+                      </small>
                     </InputGroup>
                   </Row>
                   <Row>
