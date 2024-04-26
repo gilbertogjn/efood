@@ -88,18 +88,18 @@ const Cart = () => {
   }
 
   const isValidAdress = () => {
-    const isFullNameValid = 'fullname' in form.errors
-    const isAddressValid = 'address' in form.errors
-    const isCityValid = 'city' in form.errors
-    const isPostalCodeValid = 'postalCode' in form.errors
-    const isNumberValid = 'number' in form.errors
+    const isFullNameInvalid = 'fullName' in form.errors
+    const isAddressInvalid = 'address' in form.errors
+    const isCityInvalid = 'city' in form.errors
+    const isPostalCodeInvalid = 'postalCode' in form.errors
+    const isNumberInvalid = 'number' in form.errors
 
     if (
-      isFullNameValid &&
-      isAddressValid &&
-      isCityValid &&
-      isPostalCodeValid &&
-      isNumberValid
+      !isFullNameInvalid &&
+      !isAddressInvalid &&
+      !isCityInvalid &&
+      !isPostalCodeInvalid &&
+      !isNumberInvalid
     ) {
       return setAddressOn(false)
     } else {
