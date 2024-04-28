@@ -26,6 +26,7 @@ const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
   const [currentScreen, setCurrentScreen] = useState<number>(1)
   const [addressOn, setAddressOn] = useState(true)
+  const [isItemsEmpty, setIsItemsEmpty] = useState(false)
 
   const form = useFormik({
     initialValues: {
@@ -43,19 +44,19 @@ const Cart = () => {
     },
     validationSchema: Yup.object({
       fullName: Yup.string()
-        .min(5, 'O campo ter no minímo 5 caracteres')
+        .min(5, 'O campo deve ter no minímo 5 caracteres')
         .required('Campo obrigatório'),
       address: Yup.string()
-        .min(5, 'O campo ter no minímo 5 caracteres')
+        .min(5, 'O campo deve ter no minímo 5 caracteres')
         .required('Campo obrigatório'),
       city: Yup.string()
-        .min(3, 'O campo ter no minímo 3 caracteres')
+        .min(3, 'O campo deve ter no minímo 3 caracteres')
         .required('Campo obrigatório'),
       postalCode: Yup.string()
-        .min(8, 'O campo ter no minímo 8 caracteres')
+        .min(8, 'O campo deve ter no minímo 8 caracteres')
         .required('Campo obrigatório'),
       number: Yup.string()
-        .min(3, 'O campo ter no minímo 3 caracteres')
+        .min(3, 'O campo deve ter no minímo 3 caracteres')
         .required('Campo obrigatório'),
       complement: Yup.string(),
 
@@ -88,22 +89,20 @@ const Cart = () => {
   }
 
   const isValidAdress = () => {
-    const isFullNameInvalid = 'fullName' in form.errors
-    const isAddressInvalid = 'address' in form.errors
-    const isCityInvalid = 'city' in form.errors
-    const isPostalCodeInvalid = 'postalCode' in form.errors
-    const isNumberInvalid = 'number' in form.errors
-
     if (
-      !isFullNameInvalid &&
-      !isAddressInvalid &&
-      !isCityInvalid &&
-      !isPostalCodeInvalid &&
-      !isNumberInvalid
+      'fullName' in form.touched ||
+      'address' in form.touched ||
+      'city' in form.touched ||
+      'postalCode' in form.touched ||
+      'number' in form.touched
     ) {
-      return setAddressOn(false)
-    } else {
-      return setAddressOn(true)
+      setAddressOn(
+        'fullName' in form.errors ||
+          'address' in form.errors ||
+          'city' in form.errors ||
+          'postalCode' in form.errors ||
+          'number' in form.errors
+      )
     }
   }
 
@@ -112,29 +111,48 @@ const Cart = () => {
       case 1:
         return (
           <>
-            <ul>
-              {items.map((item) => (
-                <li key={item.id}>
-                  <img className="itemImg" src={item.foto} alt={item.nome} />
-                  <div>
-                    <h3>{item.nome}</h3>
-                    <p>{formatPrices(item.preco)}</p>
-                  </div>
-                  <img
-                    onClick={() => removeItem(item.id)}
-                    className="removeItem"
-                    src={trashIcon}
-                  />
-                </li>
-              ))}
-            </ul>
-            <Total>
-              <span>Valor total</span>
-              <span>R$ {formatPrices(getTotalPrice())}</span>
-            </Total>
-            <Button type="button" title="Continuar" onClick={handleNext}>
-              Continuar com a entrega
-            </Button>
+            {items.length === 0 ? (
+              <>
+                <p>Seu carrinho esta vazio</p>
+                <Button
+                  title="Voltar para produtos"
+                  type="button"
+                  onClick={() => dispatch(close())}
+                >
+                  Voltar para produtos
+                </Button>
+              </>
+            ) : (
+              <>
+                <ul>
+                  {items.map((item) => (
+                    <li key={item.id}>
+                      <img
+                        className="itemImg"
+                        src={item.foto}
+                        alt={item.nome}
+                      />
+                      <div>
+                        <h3>{item.nome}</h3>
+                        <p>{formatPrices(item.preco)}</p>
+                      </div>
+                      <img
+                        onClick={() => removeItem(item.id)}
+                        className="removeItem"
+                        src={trashIcon}
+                      />
+                    </li>
+                  ))}
+                </ul>
+                <Total>
+                  <span>Valor total</span>
+                  <span>R$ {formatPrices(getTotalPrice())}</span>
+                </Total>
+                <Button type="button" title="Continuar" onClick={handleNext}>
+                  Continuar com a entrega
+                </Button>
+              </>
+            )}
           </>
         )
       case 2:
@@ -220,7 +238,7 @@ const Cart = () => {
                   </Row>
                   <Row>
                     <InputGroup>
-                      <label htmlFor="complement">Complemento</label>
+                      <label htmlFor="complement">Complemento (opcional)</label>
                       <input
                         id="complement"
                         type="text"
@@ -407,6 +425,9 @@ const Cart = () => {
 
   const removeItem = (id: number) => {
     dispatch(remove(id))
+    if (items.length - 1 === 0) {
+      setIsItemsEmpty(true)
+    }
   }
 
   return (

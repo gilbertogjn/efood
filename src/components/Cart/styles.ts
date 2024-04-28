@@ -84,7 +84,7 @@ export const Total = styled.div`
 
 export const Row = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 34px;
 
   .buttons {
