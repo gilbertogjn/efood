@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import InputMask from 'react-input-mask'
 
 import {
   CartContainer,
@@ -17,16 +20,16 @@ import Button from '../Button'
 import { RootReducer } from '../../store'
 import { close, remove, clear } from '../../store/reducers/cart'
 
-import { formatPrices } from '../../pages/Restaurant'
-
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
+import { formatPrices, getTotalPrice } from '../../utils'
+import { usePurchaseMutation } from '../../services/api'
 
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
   const [currentScreen, setCurrentScreen] = useState<number>(1)
   const [addressOn, setAddressOn] = useState(true)
-  const [isItemsEmpty, setIsItemsEmpty] = useState(false)
+  const [purchase, { isLoading, isError, data, isSuccess }] =
+    usePurchaseMutation()
+  const dispatch = useDispatch()
 
   const form = useFormik({
     initialValues: {
@@ -55,7 +58,7 @@ const Cart = () => {
       postalCode: Yup.string()
         .min(8, 'O campo deve ter no minímo 8 caracteres')
         .required('Campo obrigatório'),
-      number: Yup.string()
+      number: Yup.number()
         .min(3, 'O campo deve ter no minímo 3 caracteres')
         .required('Campo obrigatório'),
       complement: Yup.string(),
@@ -67,7 +70,38 @@ const Cart = () => {
       expiresYear: Yup.string().min(4).required('Campo obrigatório')
     }),
     onSubmit: (values) => {
-      console.log(values)
+      purchase({
+        products: [
+          {
+            id: 1,
+            price: 10
+          }
+        ],
+        delivery: {
+          receiver: values.fullName,
+          address: {
+            description: values.address,
+            city: values.city,
+            zipCode: values.postalCode,
+            number: Number(values.number),
+            complement: values.complement
+          }
+        },
+        payment: {
+          card: {
+            name: values.cardName,
+            number: values.cardNumber,
+            code: Number(values.cardCode),
+            expires: {
+              month: Number(values.expiresMonth),
+              year: Number(values.expiresYear)
+            }
+          }
+        }
+      })
+
+      handleNext()
+      setAddressOn(true)
     }
   })
 
@@ -104,6 +138,20 @@ const Cart = () => {
           'number' in form.errors
       )
     }
+  }
+
+  const closeCart = () => {
+    dispatch(close())
+  }
+
+  const clearCart = () => {
+    dispatch(clear())
+    dispatch(close())
+    setCurrentScreen(1)
+  }
+
+  const removeItem = (id: number) => {
+    dispatch(remove(id))
   }
 
   const renderCurrentScreen = () => {
@@ -146,7 +194,7 @@ const Cart = () => {
                 </ul>
                 <Total>
                   <span>Valor total</span>
-                  <span>R$ {formatPrices(getTotalPrice())}</span>
+                  <span>R$ {formatPrices(getTotalPrice(items))}</span>
                 </Total>
                 <Button type="button" title="Continuar" onClick={handleNext}>
                   Continuar com a entrega
@@ -211,13 +259,14 @@ const Cart = () => {
                   <Row>
                     <InputGroup>
                       <label htmlFor="postalCode">CEP</label>
-                      <input
+                      <InputMask
                         id="postalCode"
                         type="text"
                         name="postalCode"
                         value={form.values.postalCode}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="99999-999"
                       />
                       <small>
                         {getErrorMsg('postalCode', form.errors.postalCode)}
@@ -271,7 +320,8 @@ const Cart = () => {
               ) : (
                 <div className="payment-screen">
                   <h3>
-                    Pagamento - Valor a pagar R$ {formatPrices(getTotalPrice())}
+                    Pagamento - Valor a pagar R${' '}
+                    {formatPrices(getTotalPrice(items))}
                   </h3>
                   <Row>
                     <InputGroup>
@@ -292,13 +342,14 @@ const Cart = () => {
                   <Row className="card-data-row">
                     <InputGroup>
                       <label htmlFor="cardNumber">Número do cartão</label>
-                      <input
+                      <InputMask
                         id="cardNumber"
                         type="text"
                         name="cardNumber"
                         value={form.values.cardNumber}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="9999 9999 9999 9999"
                       />
                       <small>
                         {getErrorMsg('cardNumber', form.errors.cardNumber)}
@@ -306,13 +357,14 @@ const Cart = () => {
                     </InputGroup>
                     <InputGroup>
                       <label htmlFor="cardCode">CVV</label>
-                      <input
+                      <InputMask
                         id="cardCode"
                         type="text"
                         name="cardCode"
                         value={form.values.cardCode}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="999"
                       />
                       <small>
                         {getErrorMsg('cardCode', form.errors.cardCode)}
@@ -322,13 +374,14 @@ const Cart = () => {
                   <Row>
                     <InputGroup>
                       <label htmlFor="expiresMonth">Mês de vencimento</label>
-                      <input
+                      <InputMask
                         id="expiresMonth"
                         type="text"
                         name="expiresMonth"
                         value={form.values.expiresMonth}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="99"
                       />
                       <small>
                         {getErrorMsg('expiresMonth', form.errors.expiresMonth)}
@@ -336,13 +389,14 @@ const Cart = () => {
                     </InputGroup>
                     <InputGroup>
                       <label htmlFor="expiresYear">Ano de vencimento</label>
-                      <input
+                      <InputMask
                         id="expiresYear"
                         type="text"
                         name="expiresYear"
                         value={form.values.expiresYear}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="9999"
                       />
                       <small>
                         {getErrorMsg('expiresYear', form.errors.expiresYear)}
@@ -354,7 +408,7 @@ const Cart = () => {
                       <Button
                         onClick={form.handleSubmit}
                         title="Clique aqui para finaliar o pagamento"
-                        type="button"
+                        type="submit"
                       >
                         Finalizar o pagamento
                       </Button>
@@ -373,9 +427,9 @@ const Cart = () => {
           </>
         )
       case 3:
-        return (
+        return isSuccess ? (
           <>
-            <h3>Pedido realizado - (ORDER_ID)</h3>
+            <h3>Pedido realizado - {data.orderId}</h3>
             <p>
               Estamos felizes em informar que seu pedido já está em processo de
               preparação e, em breve, será entregue no endereço fornecido.
@@ -401,32 +455,9 @@ const Cart = () => {
               Concluir
             </Button>
           </>
+        ) : (
+          <p>Processando o pedido...</p>
         )
-    }
-  }
-
-  const dispatch = useDispatch()
-
-  const closeCart = () => {
-    dispatch(close())
-  }
-
-  const clearCart = () => {
-    dispatch(clear())
-    dispatch(close())
-    setCurrentScreen(1)
-  }
-
-  const getTotalPrice = () => {
-    return items.reduce((accumulator, currentValue) => {
-      return (accumulator += currentValue.preco)
-    }, 0)
-  }
-
-  const removeItem = (id: number) => {
-    dispatch(remove(id))
-    if (items.length - 1 === 0) {
-      setIsItemsEmpty(true)
     }
   }
 

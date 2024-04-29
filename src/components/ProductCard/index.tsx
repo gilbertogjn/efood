@@ -9,7 +9,7 @@ import Button from '../Button'
 import { useDispatch } from 'react-redux'
 import { add, open } from '../../store/reducers/cart'
 import { Dish } from '../../pages/Home'
-import { formatPrices } from '../../pages/Restaurant'
+import { formatPrices } from '../../utils'
 
 // type Props = {
 //   title: string
@@ -31,14 +31,6 @@ const ProductCard = ({ dish }: Props) => {
     setModalOn(false)
     dispatch(open())
     dispatch(add(dish))
-    console.log(dish)
-  }
-
-  function letterLimit(text: string, maxLength: number) {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + '...'
-    }
-    return text
   }
 
   return (

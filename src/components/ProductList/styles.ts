@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
-import { ButtonContainer } from '../Button/styles'
 
 export const Grid = styled.ul`
   display: grid;

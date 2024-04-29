@@ -1,8 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 
 import { HeaderBar, HeaderProductInfo, HeroBar } from './styles'
-import { Restaurant } from '../../pages/Home'
 
 import bgHeader from '../../assets/image/bgHeader.svg'
 import logo from '../../assets/image/logo.svg'
