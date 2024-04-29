@@ -36,7 +36,9 @@ const HeaderProduct = () => {
             Restaurantes
           </Link>
           <Link title="Voltar para restaurantes" className="logoHome" to="/">
-            <img src={logo} />
+            <h1>
+              <img src={logo} />
+            </h1>
           </Link>
           <p onClick={openCart}>{items.length} produto(s) no carrinho</p>
         </HeaderProductInfo>

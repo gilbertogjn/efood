@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Card = styled.div`
   position: relative;
@@ -11,6 +11,14 @@ export const Card = styled.div`
     width: 100%;
     height: 217px;
     object-fit: cover;
+  }
+
+  @media screen and (max-width: ${breakpoints.desktop}) {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: ${breakpoints.tablet}) {
+    width: 100%;
   }
 `
 

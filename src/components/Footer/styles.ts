@@ -14,6 +14,7 @@ export const Container = styled.footer`
   }
 
   p {
+    max-width: 100%;
     width: 480px;
     font-size: 10px;
     text-align: center;

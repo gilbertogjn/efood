@@ -13,6 +13,10 @@ export const HeaderBar = styled.section`
     align-items: center;
   }
 
+  h1 {
+    line-height: 0;
+  }
+
   h2 {
     font-size: 36px;
     font-weight: 900;

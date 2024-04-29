@@ -1,13 +1,22 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const HeaderBar = styled.section`
   background-color: ${colors.beige};
   font-weight: 900;
   font-size: 18px;
 
+  h1 {
+    line-height: 0;
+  }
+
   img {
     margin: 40px 0;
+
+    @media only screen and (max-width: ${breakpoints.tablet}) {
+      width: 100px;
+      height: 60px;
+    }
   }
 `
 
@@ -19,13 +28,27 @@ export const HeaderProductInfo = styled.div`
   color: ${colors.red};
   position: relative;
 
+  @media only screen and (max-width: ${breakpoints.tablet}) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
   .restaurantsBtn {
     color: ${colors.red};
     width: 197px;
+
+    @media only screen and (max-width: ${breakpoints.tablet}) {
+      width: auto;
+    }
   }
 
   p {
     cursor: pointer;
+    text-align: right;
+  }
+
+  @media only screen and (max-width: ${breakpoints.tablet}) {
+    font-size: 14px;
   }
 `
 
@@ -55,7 +78,7 @@ export const HeroBar = styled.div`
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    padding: 25px 0;
+    padding: 25px 8px;
     color: ${colors.white};
 
     h2 {

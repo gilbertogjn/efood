@@ -152,6 +152,10 @@ const Cart = () => {
     dispatch(remove(id))
   }
 
+  const handleReload = () => {
+    window.location.reload()
+  }
+
   const renderCurrentScreen = () => {
     switch (currentScreen) {
       case 1:
@@ -226,7 +230,7 @@ const Cart = () => {
                   experiência gastronômica. Bom apetite!
                 </p>
                 <Button
-                  onClick={closeCart}
+                  onClick={handleReload}
                   title="Clique para concluir"
                   type="button"
                 >

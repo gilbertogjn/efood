@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Viewport = styled.div`
   z-index: 3;
@@ -31,6 +31,10 @@ export const CartContainer = styled.aside`
   background-color: ${colors.red};
   color: ${colors.beige};
   padding: 32px 8px;
+
+  @media only screen and (max-width: ${breakpoints.tablet}) {
+    width: 85%;
+  }
 
   h3,
   p {

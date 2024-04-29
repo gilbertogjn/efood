@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 import { ButtonContainer } from '../Button/styles'
 
 export const Card = styled.div`
@@ -9,6 +9,14 @@ export const Card = styled.div`
   background-color: ${colors.red};
   color: ${colors.beige};
   padding: 8px;
+
+  @media screen and (max-width: ${breakpoints.desktop}) {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: ${breakpoints.tablet}) {
+    width: 100%;
+  }
 
   img {
     width: 100%;
@@ -45,6 +53,7 @@ export const Modal = styled.div`
   display: none;
   align-items: center;
   z-index: 1;
+  padding: 0 8px;
 
   &.visible {
     display: flex;
@@ -67,17 +76,26 @@ export const Modal = styled.div`
     background-color: ${colors.red};
     color: ${colors.beige};
 
+    @media only screen and (max-width: ${breakpoints.tablet}) {
+      display: block;
+    }
+
     .infos {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: start;
+      gap: 12px;
     }
 
     img {
       width: 280px;
       height: 280px;
       object-fit: cover;
+
+      @media only screen and (max-width: ${breakpoints.tablet}) {
+        margin-bottom: 8px;
+      }
     }
 
     .close {
@@ -93,5 +111,9 @@ export const Modal = styled.div`
   ${ButtonContainer} {
     width: auto;
     padding: 4px 7px;
+
+    @media only screen and (max-width: ${breakpoints.tablet}) {
+      width: 100%;
+    }
   }
 `

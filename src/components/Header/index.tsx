@@ -8,7 +8,9 @@ const Header = () => (
   <HeaderBar style={{ backgroundImage: `url(${bgHeader})` }}>
     <div className="container">
       <Link title="Voltar para home" to="/">
-        <img src={logo} />
+        <h1>
+          <img src={logo} />
+        </h1>
       </Link>
       <h2>Viva experiências gastronômicas no conforto da sua casa</h2>
     </div>
