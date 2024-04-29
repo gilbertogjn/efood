@@ -28,10 +28,14 @@ const HeaderProduct = () => {
     <HeaderBar style={{ backgroundImage: `url(${bgHeader})` }}>
       <div className="container">
         <HeaderProductInfo>
-          <Link className="restaurantsBtn" to="/">
+          <Link
+            title="Voltar para restaurantes"
+            className="restaurantsBtn"
+            to="/"
+          >
             Restaurantes
           </Link>
-          <Link className="logoHome" to="/">
+          <Link title="Voltar para restaurantes" className="logoHome" to="/">
             <img src={logo} />
           </Link>
           <p onClick={openCart}>{items.length} produto(s) no carrinho</p>

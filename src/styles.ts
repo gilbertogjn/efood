@@ -8,6 +8,11 @@ export const colors = {
   yellow: '#FFB930'
 }
 
+export const breakpoints = {
+  desktop: '1024px',
+  tablet: '768px'
+}
+
 export const GlobalCss = createGlobalStyle`
   * {
     margin: 0;

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -71,12 +71,10 @@ const Cart = () => {
     }),
     onSubmit: (values) => {
       purchase({
-        products: [
-          {
-            id: 1,
-            price: 10
-          }
-        ],
+        products: items.map((item) => ({
+          id: item.id,
+          price: item.preco
+        })),
         delivery: {
           receiver: values.fullName,
           address: {
@@ -100,10 +98,15 @@ const Cart = () => {
         }
       })
 
-      handleNext()
       setAddressOn(true)
     }
   })
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clear())
+    }
+  }, [isSuccess, dispatch])
 
   const handleNext = () => {
     setCurrentScreen(currentScreen + 1)
@@ -141,11 +144,6 @@ const Cart = () => {
   }
 
   const closeCart = () => {
-    dispatch(close())
-  }
-
-  const clearCart = () => {
-    dispatch(clear())
     dispatch(close())
     setCurrentScreen(1)
   }
@@ -206,257 +204,266 @@ const Cart = () => {
       case 2:
         return (
           <>
-            <form onSubmit={form.handleSubmit}>
-              {addressOn ? (
-                <div className="address-screen">
-                  <h3>Entrega</h3>
-                  <Row>
-                    <InputGroup>
-                      <label htmlFor="fullName">Quem irá receber</label>
-                      <input
-                        id="fullName"
-                        type="text"
-                        name="fullName"
-                        value={form.values.fullName}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                      />
-                      <small>
-                        {getErrorMsg('fullName', form.errors.fullName)}
-                      </small>
-                    </InputGroup>
-                  </Row>
-                  <Row>
-                    <InputGroup>
-                      <label htmlFor="address">Endereço</label>
-                      <input
-                        id="address"
-                        type="text"
-                        name="address"
-                        value={form.values.address}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                      />
-                      <small>
-                        {getErrorMsg('address', form.errors.address)}
-                      </small>
-                    </InputGroup>
-                  </Row>
-                  <Row>
-                    <InputGroup>
-                      <label htmlFor="city">Cidade</label>
-                      <input
-                        id="city"
-                        type="text"
-                        name="city"
-                        value={form.values.city}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                      />
-                      <small>{getErrorMsg('city', form.errors.city)}</small>
-                    </InputGroup>
-                  </Row>
-                  <Row>
-                    <InputGroup>
-                      <label htmlFor="postalCode">CEP</label>
-                      <InputMask
-                        id="postalCode"
-                        type="text"
-                        name="postalCode"
-                        value={form.values.postalCode}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                        mask="99999-999"
-                      />
-                      <small>
-                        {getErrorMsg('postalCode', form.errors.postalCode)}
-                      </small>
-                    </InputGroup>
-                    <InputGroup>
-                      <label htmlFor="number">Número</label>
-                      <input
-                        id="number"
-                        type="text"
-                        name="number"
-                        value={form.values.number}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                      />
-                      <small>{getErrorMsg('number', form.errors.number)}</small>
-                    </InputGroup>
-                  </Row>
-                  <Row>
-                    <InputGroup>
-                      <label htmlFor="complement">Complemento (opcional)</label>
-                      <input
-                        id="complement"
-                        type="text"
-                        name="complement"
-                        value={form.values.complement}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                      />
-                    </InputGroup>
-                  </Row>
-                  <Row>
-                    <div className="buttons">
-                      <Button
-                        onClick={isValidAdress}
-                        title="Clique aqui para continuar com o pagamento"
-                        type="button"
-                      >
-                        Continuar com o pagamento
-                      </Button>
-                      <Button
-                        onClick={handlePrevious}
-                        title="Clique aqui para voltar ao carrinho"
-                        type="button"
-                      >
-                        Voltar para o carrinho
-                      </Button>
-                    </div>
-                  </Row>
-                </div>
-              ) : (
-                <div className="payment-screen">
-                  <h3>
-                    Pagamento - Valor a pagar R${' '}
-                    {formatPrices(getTotalPrice(items))}
-                  </h3>
-                  <Row>
-                    <InputGroup>
-                      <label htmlFor="cardName">Nome no cartão</label>
-                      <input
-                        id="cardName"
-                        type="text"
-                        name="cardName"
-                        value={form.values.cardName}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                      />
-                      <small>
-                        {getErrorMsg('cardName', form.errors.cardName)}
-                      </small>
-                    </InputGroup>
-                  </Row>
-                  <Row className="card-data-row">
-                    <InputGroup>
-                      <label htmlFor="cardNumber">Número do cartão</label>
-                      <InputMask
-                        id="cardNumber"
-                        type="text"
-                        name="cardNumber"
-                        value={form.values.cardNumber}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                        mask="9999 9999 9999 9999"
-                      />
-                      <small>
-                        {getErrorMsg('cardNumber', form.errors.cardNumber)}
-                      </small>
-                    </InputGroup>
-                    <InputGroup>
-                      <label htmlFor="cardCode">CVV</label>
-                      <InputMask
-                        id="cardCode"
-                        type="text"
-                        name="cardCode"
-                        value={form.values.cardCode}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                        mask="999"
-                      />
-                      <small>
-                        {getErrorMsg('cardCode', form.errors.cardCode)}
-                      </small>
-                    </InputGroup>
-                  </Row>
-                  <Row>
-                    <InputGroup>
-                      <label htmlFor="expiresMonth">Mês de vencimento</label>
-                      <InputMask
-                        id="expiresMonth"
-                        type="text"
-                        name="expiresMonth"
-                        value={form.values.expiresMonth}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                        mask="99"
-                      />
-                      <small>
-                        {getErrorMsg('expiresMonth', form.errors.expiresMonth)}
-                      </small>
-                    </InputGroup>
-                    <InputGroup>
-                      <label htmlFor="expiresYear">Ano de vencimento</label>
-                      <InputMask
-                        id="expiresYear"
-                        type="text"
-                        name="expiresYear"
-                        value={form.values.expiresYear}
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                        mask="9999"
-                      />
-                      <small>
-                        {getErrorMsg('expiresYear', form.errors.expiresYear)}
-                      </small>
-                    </InputGroup>
-                  </Row>
-                  <Row>
-                    <div className="buttons">
-                      <Button
-                        onClick={form.handleSubmit}
-                        title="Clique aqui para finaliar o pagamento"
-                        type="submit"
-                      >
-                        Finalizar o pagamento
-                      </Button>
-                      <Button
-                        onClick={() => setAddressOn(true)}
-                        title="Clique aqui para voltar a edição de endereço"
-                        type="button"
-                      >
-                        Voltar para edição do endereço
-                      </Button>
-                    </div>
-                  </Row>
-                </div>
-              )}
-            </form>
+            {isSuccess && data ? (
+              <>
+                <h3>Pedido realizado - {data.orderId}</h3>
+                <p>
+                  Estamos felizes em informar que seu pedido já está em processo
+                  de preparação e, em breve, será entregue no endereço
+                  fornecido.
+                </p>
+                <p>
+                  Gostaríamos de ressaltar que nossos entregadores não estão
+                  autorizados a realizar cobranças extras.
+                </p>
+                <p>
+                  Lembre-se da importância de higienizar as mãos após o
+                  recebimento do pedido, garantindo assim sua segurança e
+                  bem-estar durante a refeição.
+                </p>
+                <p>
+                  Esperamos que desfrute de uma deliciosa e agradável
+                  experiência gastronômica. Bom apetite!
+                </p>
+                <Button
+                  onClick={closeCart}
+                  title="Clique para concluir"
+                  type="button"
+                >
+                  Concluir
+                </Button>
+              </>
+            ) : (
+              <form onSubmit={form.handleSubmit}>
+                {addressOn ? (
+                  <div className="address-screen">
+                    <h3>Entrega</h3>
+                    <Row>
+                      <InputGroup>
+                        <label htmlFor="fullName">Quem irá receber</label>
+                        <input
+                          id="fullName"
+                          type="text"
+                          name="fullName"
+                          value={form.values.fullName}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                        />
+                        <small>
+                          {getErrorMsg('fullName', form.errors.fullName)}
+                        </small>
+                      </InputGroup>
+                    </Row>
+                    <Row>
+                      <InputGroup>
+                        <label htmlFor="address">Endereço</label>
+                        <input
+                          id="address"
+                          type="text"
+                          name="address"
+                          value={form.values.address}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                        />
+                        <small>
+                          {getErrorMsg('address', form.errors.address)}
+                        </small>
+                      </InputGroup>
+                    </Row>
+                    <Row>
+                      <InputGroup>
+                        <label htmlFor="city">Cidade</label>
+                        <input
+                          id="city"
+                          type="text"
+                          name="city"
+                          value={form.values.city}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                        />
+                        <small>{getErrorMsg('city', form.errors.city)}</small>
+                      </InputGroup>
+                    </Row>
+                    <Row>
+                      <InputGroup>
+                        <label htmlFor="postalCode">CEP</label>
+                        <InputMask
+                          id="postalCode"
+                          type="text"
+                          name="postalCode"
+                          value={form.values.postalCode}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                          mask="99999-999"
+                        />
+                        <small>
+                          {getErrorMsg('postalCode', form.errors.postalCode)}
+                        </small>
+                      </InputGroup>
+                      <InputGroup>
+                        <label htmlFor="number">Número</label>
+                        <input
+                          id="number"
+                          type="text"
+                          name="number"
+                          value={form.values.number}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                        />
+                        <small>
+                          {getErrorMsg('number', form.errors.number)}
+                        </small>
+                      </InputGroup>
+                    </Row>
+                    <Row>
+                      <InputGroup>
+                        <label htmlFor="complement">
+                          Complemento (opcional)
+                        </label>
+                        <input
+                          id="complement"
+                          type="text"
+                          name="complement"
+                          value={form.values.complement}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                        />
+                      </InputGroup>
+                    </Row>
+                    <Row>
+                      <div className="buttons">
+                        <Button
+                          onClick={isValidAdress}
+                          title="Clique aqui para continuar com o pagamento"
+                          type="button"
+                        >
+                          Continuar com o pagamento
+                        </Button>
+                        <Button
+                          onClick={handlePrevious}
+                          title="Clique aqui para voltar ao carrinho"
+                          type="button"
+                        >
+                          Voltar para o carrinho
+                        </Button>
+                      </div>
+                    </Row>
+                  </div>
+                ) : (
+                  <div className="payment-screen">
+                    <h3>
+                      Pagamento - Valor a pagar R${' '}
+                      {formatPrices(getTotalPrice(items))}
+                    </h3>
+                    <Row>
+                      <InputGroup>
+                        <label htmlFor="cardName">Nome no cartão</label>
+                        <input
+                          id="cardName"
+                          type="text"
+                          name="cardName"
+                          value={form.values.cardName}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                        />
+                        <small>
+                          {getErrorMsg('cardName', form.errors.cardName)}
+                        </small>
+                      </InputGroup>
+                    </Row>
+                    <Row className="card-data-row">
+                      <InputGroup>
+                        <label htmlFor="cardNumber">Número do cartão</label>
+                        <InputMask
+                          id="cardNumber"
+                          type="text"
+                          name="cardNumber"
+                          value={form.values.cardNumber}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                          mask="9999 9999 9999 9999"
+                        />
+                        <small>
+                          {getErrorMsg('cardNumber', form.errors.cardNumber)}
+                        </small>
+                      </InputGroup>
+                      <InputGroup>
+                        <label htmlFor="cardCode">CVV</label>
+                        <InputMask
+                          id="cardCode"
+                          type="text"
+                          name="cardCode"
+                          value={form.values.cardCode}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                          mask="999"
+                        />
+                        <small>
+                          {getErrorMsg('cardCode', form.errors.cardCode)}
+                        </small>
+                      </InputGroup>
+                    </Row>
+                    <Row>
+                      <InputGroup>
+                        <label htmlFor="expiresMonth">Mês de vencimento</label>
+                        <InputMask
+                          id="expiresMonth"
+                          type="text"
+                          name="expiresMonth"
+                          value={form.values.expiresMonth}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                          mask="99"
+                        />
+                        <small>
+                          {getErrorMsg(
+                            'expiresMonth',
+                            form.errors.expiresMonth
+                          )}
+                        </small>
+                      </InputGroup>
+                      <InputGroup>
+                        <label htmlFor="expiresYear">Ano de vencimento</label>
+                        <InputMask
+                          id="expiresYear"
+                          type="text"
+                          name="expiresYear"
+                          value={form.values.expiresYear}
+                          onChange={form.handleChange}
+                          onBlur={form.handleBlur}
+                          mask="9999"
+                        />
+                        <small>
+                          {getErrorMsg('expiresYear', form.errors.expiresYear)}
+                        </small>
+                      </InputGroup>
+                    </Row>
+                    <Row>
+                      <div className="buttons">
+                        <Button
+                          onClick={form.handleSubmit}
+                          title="Clique aqui para finalizar o pagamento"
+                          type="submit"
+                          disabled={isLoading}
+                        >
+                          {isLoading
+                            ? 'Finalizando compra...'
+                            : 'Finalizar o pagamento'}
+                        </Button>
+                        <Button
+                          onClick={() => setAddressOn(true)}
+                          title="Clique aqui para voltar a edição de endereço"
+                          type="button"
+                        >
+                          Voltar para edição do endereço
+                        </Button>
+                      </div>
+                    </Row>
+                  </div>
+                )}
+              </form>
+            )}
           </>
-        )
-      case 3:
-        return isSuccess ? (
-          <>
-            <h3>Pedido realizado - {data.orderId}</h3>
-            <p>
-              Estamos felizes em informar que seu pedido já está em processo de
-              preparação e, em breve, será entregue no endereço fornecido.
-            </p>
-            <p>
-              Gostaríamos de ressaltar que nossos entregadores não estão
-              autorizados a realizar cobranças extras.
-            </p>
-            <p>
-              Lembre-se da importância de higienizar as mãos após o recebimento
-              do pedido, garantindo assim sua segurança e bem-estar durante a
-              refeição.
-            </p>
-            <p>
-              Esperamos que desfrute de uma deliciosa e agradável experiência
-              gastronômica. Bom apetite!
-            </p>
-            <Button
-              onClick={clearCart}
-              title="Clique para concluir"
-              type="button"
-            >
-              Concluir
-            </Button>
-          </>
-        ) : (
-          <p>Processando o pedido...</p>
         )
     }
   }

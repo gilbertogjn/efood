@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const Footer = () => (
   <Container>
-    <Link to="/">
+    <Link title="Voltar para home" to="/">
       <img src={logo} />
     </Link>
     <Socials>

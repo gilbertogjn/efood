@@ -38,7 +38,11 @@ const RestaurantCard = ({
         </Rating>
       </TitleBar>
       <Description>{description}</Description>
-      <Button type="link" to={`/restaurant/${id}`} title="Saiba mais">
+      <Button
+        title={`Clique para ver o cardapio de ${title}`}
+        type="link"
+        to={`/restaurant/${id}`}
+      >
         Saiba mais
       </Button>
     </Infos>

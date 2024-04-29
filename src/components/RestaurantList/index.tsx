@@ -1,5 +1,4 @@
 import RestaurantCard from '../RestaurantCard'
-import { Restaurant } from '../../pages/Home'
 
 import { Grid } from './styles'
 

@@ -1,5 +1,3 @@
-import { Dish } from '../pages/Home'
-
 export const getTotalPrice = (items: Dish[]) => {
   return items.reduce((accumulator, currentValue) => {
     return (accumulator += currentValue.preco)

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { Card, Description, Modal } from './styles'
 
@@ -6,18 +7,8 @@ import close from '../../assets/image/close.svg'
 
 import Button from '../Button'
 
-import { useDispatch } from 'react-redux'
 import { add, open } from '../../store/reducers/cart'
-import { Dish } from '../../pages/Home'
 import { formatPrices } from '../../utils'
-
-// type Props = {
-//   title: string
-//   description: string
-//   image: string
-//   price: number
-//   portion: string
-// }
 
 type Props = {
   dish: Dish
@@ -41,7 +32,6 @@ const ProductCard = ({ dish }: Props) => {
         <Description>{dish.descricao}</Description>
         <Button
           type="button"
-          to=""
           title="Mais detalhes"
           onClick={() => setModalOn(true)}
         >

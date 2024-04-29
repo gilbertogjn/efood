@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 const Header = () => (
   <HeaderBar style={{ backgroundImage: `url(${bgHeader})` }}>
     <div className="container">
-      <Link to="/">
+      <Link title="Voltar para home" to="/">
         <img src={logo} />
       </Link>
       <h2>Viva experiências gastronômicas no conforto da sua casa</h2>
