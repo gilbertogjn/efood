@@ -27,8 +27,7 @@ const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
   const [currentScreen, setCurrentScreen] = useState<number>(1)
   const [addressOn, setAddressOn] = useState(true)
-  const [purchase, { isLoading, isError, data, isSuccess }] =
-    usePurchaseMutation()
+  const [purchase, { isLoading, data, isSuccess }] = usePurchaseMutation()
   const dispatch = useDispatch()
 
   const form = useFormik({
@@ -97,14 +96,13 @@ const Cart = () => {
           }
         }
       })
-
-      setAddressOn(true)
     }
   })
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(clear())
+      setAddressOn(true)
     }
   }, [isSuccess, dispatch])
 
@@ -313,6 +311,7 @@ const Cart = () => {
                           value={form.values.number}
                           onChange={form.handleChange}
                           onBlur={form.handleBlur}
+                          maxLength={6}
                         />
                         <small>
                           {getErrorMsg('number', form.errors.number)}
