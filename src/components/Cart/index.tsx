@@ -104,6 +104,7 @@ const Cart = () => {
       dispatch(clear())
       setAddressOn(true)
     }
+    console.log(`Is success: ${isSuccess}`)
   }, [isSuccess, dispatch])
 
   const handleNext = () => {
@@ -142,8 +143,12 @@ const Cart = () => {
   }
 
   const closeCart = () => {
-    dispatch(close())
-    setCurrentScreen(1)
+    if (!isSuccess) {
+      dispatch(close())
+      setCurrentScreen(1)
+    } else {
+      handleReload()
+    }
   }
 
   const removeItem = (id: number) => {

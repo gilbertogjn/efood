@@ -78,6 +78,7 @@ export const Modal = styled.div`
 
     @media only screen and (max-width: ${breakpoints.tablet}) {
       display: block;
+      padding: 28px;
     }
 
     .infos {
@@ -95,6 +96,8 @@ export const Modal = styled.div`
 
       @media only screen and (max-width: ${breakpoints.tablet}) {
         margin-bottom: 8px;
+        width: 100%;
+        height: 200px;
       }
     }
 
